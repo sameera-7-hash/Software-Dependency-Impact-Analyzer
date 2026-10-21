@@ -6,8 +6,15 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #0f172a;
-  color: #f8fafc;
+  background-color: #070919;
+  color: #f6f8fc;
+  -webkit-font-smoothing: antialiased;
+  color-scheme: dark;
+}
+
+::selection {
+  background: rgba(45, 212, 191, 0.35);
+  color: #fff;
 }
 
 /* Custom scrollbars */
@@ -16,12 +23,296 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 4px;
+  background: #2d3557;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #454f72;
+  background-clip: padding-box;
+}
+* {
+  scrollbar-color: #2d3557 transparent;
+  scrollbar-width: thin;
+}
+
+/* ---------- Animated app background (see components/AnimatedBackground.jsx) ---------- */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(45, 212, 191, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(129, 140, 248, 0.10), transparent 60%),
+    linear-gradient(180deg, #0a0d22 0%, #070919 55%, #05060f 100%);
+}
+
+.app-bg-aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+  mix-blend-mode: screen;
+}
+.app-bg-aurora--teal {
+  width: 42vw;
+  height: 42vw;
+  top: -12vw;
+  left: -8vw;
+  background: radial-gradient(circle, #14b8a6 0%, transparent 70%);
+  animation: aurora-a 26s ease-in-out infinite alternate;
+}
+.app-bg-aurora--indigo {
+  width: 48vw;
+  height: 48vw;
+  bottom: -18vw;
+  right: -10vw;
+  background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+  animation: aurora-b 32s ease-in-out infinite alternate;
+}
+.app-bg-aurora--violet {
+  width: 30vw;
+  height: 30vw;
+  top: 35%;
+  left: 45%;
+  opacity: 0.22;
+  background: radial-gradient(circle, #a855f7 0%, transparent 70%);
+  animation: aurora-c 38s ease-in-out infinite alternate;
+}
+
+.app-bg-grid {
+  position: absolute;
+  inset: -64px;
+  background-image:
+    linear-gradient(rgba(141, 153, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(141, 153, 184, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 30%, transparent 100%);
+  animation: grid-pan 40s linear infinite;
+}
+
+.app-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.app-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(3, 4, 12, 0.6) 100%);
+}
+
+@keyframes aurora-a {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(12vw, 8vh) scale(1.15); }
+  100% { transform: translate(4vw, 18vh) scale(0.95); }
+}
+@keyframes aurora-b {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-14vw, -6vh) scale(1.1); }
+  100% { transform: translate(-6vw, -16vh) scale(1.2); }
+}
+@keyframes aurora-c {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-18vw, 10vh) scale(1.25); }
+  100% { transform: translate(10vw, -12vh) scale(0.9); }
+}
+@keyframes grid-pan {
+  from { transform: translate(0, 0); }
+  to { transform: translate(64px, 64px); }
+}
+
+@layer base {
+  /* Shared interaction feel for every button and button-like link */
+  button,
+  [role='button'],
+  a.btn {
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity, filter;
+    transition-duration: 180ms;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  button:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+
+  button:not(:disabled):active {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 80ms;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+
+  /* Visible keyboard focus without showing rings on mouse click */
+  button:focus-visible,
+  a:focus-visible,
+  [role='button']:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #2dd4bf;
+    outline-offset: 2px;
+  }
+
+  /* Filled (shadowed) buttons get a soft glow on hover */
+  button.shadow:not(:disabled):hover,
+  button.shadow-sm:not(:disabled):hover {
+    box-shadow: 0 6px 18px -6px rgba(45, 212, 191, 0.35), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Icons nudge slightly on hover for affordance */
+  button:not(:disabled):hover > svg:first-child:not(.animate-spin) {
+    transform: scale(1.1);
+  }
+  button > svg {
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+@layer components {
+  /* Click ripple, injected by src/utils/ripple.js */
+  .ripple-host {
+    overflow: hidden;
+  }
+  .ripple {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    background: currentColor;
+    opacity: 0.25;
+    transform: scale(0);
+    animation: ripple 550ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  /* Glassy translucent surface for app chrome (header, sidebar) */
+  .glass {
+    @apply bg-slate-900/55 backdrop-blur-xl;
+  }
+
+  /* Slowly shifting brand gradient for headings */
+  .text-gradient {
+    @apply bg-clip-text text-transparent animate-gradient-pan;
+    background-image: linear-gradient(90deg, #ffffff 0%, #5eead4 30%, #a5b4fc 60%, #ffffff 100%);
+    background-size: 200% auto;
+  }
+
+  /* Soft glowing ring behind the logo mark */
+  .logo-glow {
+    box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.2), 0 0 24px -4px rgba(45, 212, 191, 0.45);
+    animation: logo-glow 4s ease-in-out infinite;
+  }
+
+  .page-enter {
+    /* "backwards" so no transform lingers (it would trap position: fixed children) */
+    animation: page-enter 320ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  }
+
+  .fade-in {
+    animation: fade-in 200ms ease-out both;
+  }
+
+  .slide-in-left {
+    animation: slide-in-left 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .slide-down {
+    animation: slide-down 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus {
+    @apply not-sr-only fixed top-3 left-3 z-[100] bg-teal-600 text-white text-xs font-semibold px-3 py-2 rounded-lg shadow-lg;
+  }
+
+  kbd {
+    @apply inline-flex items-center justify-center min-w-[1.25rem] px-1 py-0.5 rounded border border-slate-700 bg-slate-800 text-[10px] font-mono text-slate-300;
+  }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logo-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.2), 0 0 18px -6px rgba(45, 212, 191, 0.35); }
+  50% { box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.35), 0 0 28px -2px rgba(45, 212, 191, 0.55); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  button:not(:disabled):hover,
+  button:not(:disabled):active {
+    transform: none;
+  }
+  .ripple,
+  .app-bg-canvas {
+    display: none;
+  }
+}
+
+/* Cards: faint top highlight gives translucent panels a glassy edge over the animated backdrop */
+@layer utilities {
+  .rounded-xl.border,
+  .rounded-2xl.border {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Target, ArrowRight, ShieldAlert, Layers } from 'lucide-react';
+import { Target, ArrowRight, ShieldAlert, Layers, Loader2 } from 'lucide-react';
 import { getDownstreamImpact } from '../services/api';
 
 export default function NodeInspector({ selectedNode, nodes, onSelectAnother }) {
@@ -68,7 +68,7 @@ export default function NodeInspector({ selectedNode, nodes, onSelectAnother }) 
           disabled={isImpactLoading || nodeObj.is_root}
           className="w-full flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 text-white text-xs font-semibold py-2 px-3 rounded-lg shadow transition"
         >
-          <Target className="w-4 h-4" />
+          {isImpactLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Target className="w-4 h-4" />}
           <span>{isImpactLoading ? 'Traversing Reverse Graph...' : 'Calculate Downstream Blast Radius'}</span>
         </button>
       </div>

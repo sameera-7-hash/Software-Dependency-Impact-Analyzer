@@ -8,7 +8,8 @@ import {
   AlertTriangle, 
   CheckCircle,
   Sparkles,
-  GitPullRequest
+  GitPullRequest,
+  Loader2
 } from 'lucide-react';
 import { simulateChange } from '../services/api';
 
@@ -219,7 +220,7 @@ export default function SimulationPanel({
             disabled={isLoading}
             className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 text-white font-medium text-xs px-5 py-2.5 rounded-lg shadow transition"
           >
-            <Play className="w-3.5 h-3.5" />
+            {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
             <span>{isLoading ? 'Simulating Delta Diff...' : 'Simulate Change'}</span>
           </button>
         </div>

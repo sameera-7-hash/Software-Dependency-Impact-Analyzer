@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, Play, FileJson, AlertCircle } from 'lucide-react';
+import { Upload, Play, FileJson, AlertCircle, Loader2 } from 'lucide-react';
 
 const SAMPLE_PACKAGE_JSON = {
   name: "sample-node-service",
@@ -164,7 +164,7 @@ export default function ProjectUploader({ onAnalyze, isLoading }) {
             disabled={isLoading}
             className="flex items-center space-x-2 bg-teal-600 hover:bg-teal-500 disabled:bg-slate-700 text-white font-medium text-sm px-5 py-2.5 rounded-lg shadow transition"
           >
-            <Play className="w-4 h-4" />
+            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
             <span>{isLoading ? 'Analyzing Graph...' : 'Analyze Dependency Graph'}</span>
           </button>
         </div>

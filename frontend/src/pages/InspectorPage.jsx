@@ -10,7 +10,8 @@ import {
   CheckCircle2,
   Calendar,
   AlertTriangle,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 import { useAnalysis } from '../context/AnalysisContext';
 import { getDownstreamImpact } from '../services/api';
@@ -281,7 +282,7 @@ export default function InspectorPage() {
                     disabled={isImpactLoading || nodeObj.is_root}
                     className="w-full flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 text-white text-xs font-semibold py-2.5 px-4 rounded-lg shadow transition"
                   >
-                    <Target className="w-4 h-4" />
+                    {isImpactLoading ? <Loader2 className="w-4 h-4 shrink-0 animate-spin" /> : <Target className="w-4 h-4 shrink-0" />}
                     <span>
                       {isImpactLoading ? 'Traversing Reverse Dependency Paths (BFS)...' : `Calculate Downstream Blast Radius for "${nodeObj.name}"`}
                     </span>

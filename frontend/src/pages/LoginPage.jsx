@@ -13,6 +13,7 @@ import {
   Server
 } from 'lucide-react';
 import { useAnalysis } from '../context/AnalysisContext';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -77,16 +78,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between">
+    <div className="relative isolate min-h-screen text-slate-100 flex flex-col justify-between">
+      <AnimatedBackground />
       {/* Top Navbar */}
-      <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+      <header className="glass border-b border-slate-800/70 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-teal-500/10 text-teal-400 rounded-lg border border-teal-500/20">
+            <div className="logo-glow p-2 bg-teal-500/10 text-teal-400 rounded-lg border border-teal-500/20">
               <Network className="w-6 h-6 text-teal-400" />
             </div>
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">Software Dependency Impact Analyzer</h1>
+              <h1 className="text-gradient text-base font-bold tracking-tight">Software Dependency Impact Analyzer</h1>
               <p className="text-xs text-slate-400">Graph-Based Change Impact & What-If Simulation Engine</p>
             </div>
           </div>
@@ -276,7 +278,7 @@ export default function LoginPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 bg-slate-900/60 py-4 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-800/70 bg-slate-950/50 backdrop-blur-md py-4 text-center text-xs text-slate-500">
         Software Dependency Impact Analyzer &bull; B.Tech Computer Science Project &bull; Directed Graph & DSA Architecture
       </footer>
     </div>
